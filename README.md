@@ -1,30 +1,32 @@
 # Crackle Lab
 
-貫入（クラック）図鑑。各アルゴリズムのパラメータを調整しながら視覚的に試せる SPA。
+貫入(クラック)パターン図鑑。手続き的アルゴリズムをパラメータ調整しながら試せる SPA。
 
-## 起動
+## セットアップ
 
 ```bash
-npm install        # リポジトリルートで一度だけ
-npm run dev -w crackle-lab
+npm install
+```
+
+## 開発
+
+```bash
+npm run dev
 ```
 
 `http://localhost:5182/` が自動で開きます。
 
-## ビルド
+## テスト・ビルド
 
 ```bash
-npm run build -w crackle-lab
+npm test
+npm run build
 ```
 
-## 構成
+## アーキテクチャ
 
-```
-crackle-lab/
-├── index.html      # マークアップのみ
-├── vite.config.js
-├── package.json
-└── src/
-    ├── main.js     # ロジック（style.css を import）
-    └── style.css   # スタイル
-```
+モジュール構成・設計の詳細は [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) を参照。
+
+## ライセンス
+
+[MIT](./LICENSE)
