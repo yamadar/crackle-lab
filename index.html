@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>貫入図譜 ・ Craquelure Cartography Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+  <header class="masthead">
+    <div class="eyebrow">CRAQUELURE × CARTOGRAPHY <span class="dot">●</span> LAB.04 <span class="dot">●</span> 2026</div>
+    <h1 class="title">
+      <span class="jp">貫入図譜</span><span class="en">on the geometry of glaze and street</span>
+    </h1>
+    <p class="subtitle">
+      <span class="jp">陶磁の釉ひびと都市の道路網は、同じ幾何法則に支配される。</span>
+      Four generative algorithms that turn fracture into a town map. Adjust parameters; observe how cell, growth, and grammar yield different urban tissues.
+    </p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-algo="voronoi" role="tab">
+      <span class="num">01</span> Voronoi <span class="jp">基本</span>
+    </button>
+    <button class="tab" data-algo="recursive" role="tab">
+      <span class="num">02</span> Recursive <span class="jp">再帰</span>
+    </button>
+    <button class="tab" data-algo="growth" role="tab">
+      <span class="num">03</span> Crack Growth <span class="jp">亀裂成長</span>
+    </button>
+    <button class="tab" data-algo="grammar" role="tab">
+      <span class="num">04</span> City Grammar <span class="jp">都市文法</span>
+    </button>
+  </nav>
+
+  <div class="workspace">
+
+    <aside class="controls">
+
+      <!-- Voronoi -->
+      <div class="algo-controls active" data-algo="voronoi">
+        <div class="control-section">
+          <h3>parameters <span class="accent">01</span></h3>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">種点間隔 <span class="en">spacing</span></span>
+              <span class="control-value" id="v-spacing-val">60</span>
+            </div>
+            <input type="range" id="v-spacing" min="30" max="160" value="60" step="2" aria-label="spacing">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">分布揺らぎ <span class="en">jitter</span></span>
+              <span class="control-value" id="v-jitter-val">0.50</span>
+            </div>
+            <input type="range" id="v-jitter" min="0" max="1" value="0.5" step="0.02" aria-label="jitter">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">線の太さ <span class="en">stroke</span></span>
+              <span class="control-value" id="v-stroke-val">2.5</span>
+            </div>
+            <input type="range" id="v-stroke" min="0.8" max="5" value="2.5" step="0.1" aria-label="stroke">
+          </div>
+        </div>
+      </div>
+
+      <!-- Recursive Voronoi -->
+      <div class="algo-controls" data-algo="recursive">
+        <div class="control-section">
+          <h3>parameters <span class="accent">02</span></h3>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">階層深さ <span class="en">depth</span></span>
+              <span class="control-value" id="r-depth-val">3</span>
+            </div>
+            <input type="range" id="r-depth" min="1" max="4" value="3" step="1" aria-label="depth">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">一次種点数 <span class="en">primary seeds</span></span>
+              <span class="control-value" id="r-primary-val">7</span>
+            </div>
+            <input type="range" id="r-primary" min="3" max="18" value="7" step="1" aria-label="primary seeds">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">下層分割数 <span class="en">subdivision</span></span>
+              <span class="control-value" id="r-sub-val">4</span>
+            </div>
+            <input type="range" id="r-sub" min="2" max="8" value="4" step="1" aria-label="subdivision">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">階層減衰 <span class="en">width decay</span></span>
+              <span class="control-value" id="r-decay-val">0.55</span>
+            </div>
+            <input type="range" id="r-decay" min="0.30" max="0.85" value="0.55" step="0.05" aria-label="width decay">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">基準線幅 <span class="en">base width</span></span>
+              <span class="control-value" id="r-base-val">7.0</span>
+            </div>
+            <input type="range" id="r-base" min="3" max="12" value="7" step="0.5" aria-label="base width">
+          </div>
+        </div>
+      </div>
+
+      <!-- Crack Growth -->
+      <div class="algo-controls" data-algo="growth">
+        <div class="control-section">
+          <h3>parameters <span class="accent">03</span></h3>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">初期亀裂数 <span class="en">initial cracks</span></span>
+              <span class="control-value" id="g-init-val">5</span>
+            </div>
+            <input type="range" id="g-init" min="1" max="14" value="5" step="1" aria-label="initial cracks">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">成長段数 <span class="en">steps</span></span>
+              <span class="control-value" id="g-steps-val">800</span>
+            </div>
+            <input type="range" id="g-steps" min="100" max="2400" value="800" step="50" aria-label="steps">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">枝分かれ確率 <span class="en">branch prob.</span></span>
+              <span class="control-value" id="g-branch-val">0.025</span>
+            </div>
+            <input type="range" id="g-branch" min="0" max="0.10" value="0.025" step="0.005" aria-label="branch probability">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">屈曲度 <span class="en">wiggle</span></span>
+              <span class="control-value" id="g-wiggle-val">0.10</span>
+            </div>
+            <input type="range" id="g-wiggle" min="0" max="0.40" value="0.10" step="0.02" aria-label="wiggle">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">T接合距離 <span class="en">snap dist.</span></span>
+              <span class="control-value" id="g-snap-val">9</span>
+            </div>
+            <input type="range" id="g-snap" min="3" max="22" value="9" step="1" aria-label="snap distance">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">最大世代 <span class="en">max gen.</span></span>
+              <span class="control-value" id="g-maxgen-val">3</span>
+            </div>
+            <input type="range" id="g-maxgen" min="1" max="5" value="3" step="1" aria-label="max generation">
+          </div>
+        </div>
+      </div>
+
+      <!-- City Grammar -->
+      <div class="algo-controls" data-algo="grammar">
+        <div class="control-section">
+          <h3>parameters <span class="accent">04</span></h3>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">分岐長 <span class="en">branch length</span></span>
+              <span class="control-value" id="cg-main-val">280</span>
+            </div>
+            <input type="range" id="cg-main" min="100" max="600" value="280" step="10" aria-label="branch length">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">分岐間隔 <span class="en">branch gap</span></span>
+              <span class="control-value" id="cg-gap-val">42</span>
+            </div>
+            <input type="range" id="cg-gap" min="18" max="100" value="42" step="2" aria-label="branch gap">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">分岐確率 <span class="en">branch prob.</span></span>
+              <span class="control-value" id="cg-prob-val">0.55</span>
+            </div>
+            <input type="range" id="cg-prob" min="0.10" max="1.00" value="0.55" step="0.05" aria-label="branch probability">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">階層数 <span class="en">max rank</span></span>
+              <span class="control-value" id="cg-rank-val">3</span>
+            </div>
+            <input type="range" id="cg-rank" min="1" max="4" value="3" step="1" aria-label="max rank">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">長さ減衰 <span class="en">length factor</span></span>
+              <span class="control-value" id="cg-decay-val">0.65</span>
+            </div>
+            <input type="range" id="cg-decay" min="0.40" max="0.90" value="0.65" step="0.05" aria-label="length factor">
+          </div>
+          <div class="control">
+            <div class="control-header">
+              <span class="control-label">角度ノイズ <span class="en">angle noise</span></span>
+              <span class="control-value" id="cg-noise-val">0.10</span>
+            </div>
+            <input type="range" id="cg-noise" min="0" max="0.60" value="0.10" step="0.02" aria-label="angle noise">
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="btn primary" id="btn-regen">再生成 / Regen</button>
+        <button class="btn" id="btn-save">保存 / Save PNG</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">segments</div>
+          <div class="stat-value" id="stat-segs">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">junctions</div>
+          <div class="stat-value" id="stat-junc">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">render ms</div>
+          <div class="stat-value" id="stat-time">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">seed</div>
+          <div class="stat-value" id="stat-seed">—</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="canvas-area">
+      <div class="canvas-frame">
+        <span class="crop-mark tl"></span>
+        <span class="crop-mark tr"></span>
+        <span class="crop-mark bl"></span>
+        <span class="crop-mark br"></span>
+        <canvas id="canvas" width="1200" height="1200"></canvas>
+      </div>
+      <div class="canvas-meta">
+        <span id="meta-algo">VORONOI · 01</span>
+        <span class="signature">— 圖譜<span class="jp">・四之巻</span></span>
+        <span id="meta-dim">1200 × 1200 px</span>
+      </div>
+    </main>
+  </div>
+
+  <section class="description">
+    <div class="label">algorithm note</div>
+    <h4 id="desc-title">Voronoi tessellation — the canonical baseline</h4>
+    <p id="desc-body">—</p>
+  </section>
+
+  <footer class="footnote">
+    <span>BOGATOV 2025 <span class="dot">·</span> IBEN &amp; O'BRIEN 2009 <span class="dot">·</span> PARISH &amp; MÜLLER 2001 <span class="dot">·</span> STRANO 2012</span>
+    <span class="ref">drawn in this kiln, ad MMXXVI</span>
+  </footer>
+
+</div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
