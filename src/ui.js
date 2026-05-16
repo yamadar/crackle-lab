@@ -36,6 +36,20 @@ export function wireUI(handlers) {
     update();
   });
 
+  document.querySelectorAll('.section-toggle').forEach(h3 => {
+    h3.setAttribute('role', 'button');
+    h3.setAttribute('tabindex', '0');
+    h3.setAttribute('aria-expanded', 'true');
+    const toggle = () => {
+      const collapsed = h3.parentElement.classList.toggle('collapsed');
+      h3.setAttribute('aria-expanded', String(!collapsed));
+    };
+    h3.addEventListener('click', toggle);
+    h3.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
   document.getElementById('btn-regen').addEventListener('click', () => regenerate(true));
 
   document.getElementById('btn-save').addEventListener('click', () => {
