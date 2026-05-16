@@ -154,7 +154,14 @@ h1.title .en {
 @media (max-width: 960px) {
   .workspace { grid-template-columns: 1fr; gap: 32px; }
   .container { padding: 28px 22px 70px; }
-  .tabs { margin-top: 28px; }
+  .tabs {
+    margin-top: 28px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--paper);
+    box-shadow: 0 6px 14px -10px rgba(40,30,15,0.5);
+  }
   .tab { padding: 14px 18px 12px; font-size: 16px; }
 }
 
@@ -182,6 +189,26 @@ h1.title .en {
   color: var(--vermilion);
   font-weight: 700;
 }
+
+/* collapsible parameter section */
+.control-section h3.section-toggle {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+.control-section h3.section-toggle:hover { color: var(--ink); }
+.section-caret {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--ink-3);
+  align-self: center;
+}
+.section-caret::before { content: "\2013"; }
+.control-section.collapsed .section-caret::before { content: "+"; }
+.control-section h3.section-toggle:hover .section-caret { color: var(--vermilion); }
+.control-section.collapsed h3 { margin-bottom: 0; }
+.control-section.collapsed .control { display: none; }
 
 .control { margin-bottom: 18px; }
 .control:last-child { margin-bottom: 0; }
@@ -280,24 +307,29 @@ button.btn.primary:hover {
 }
 
 .stats {
-  margin-top: 28px;
-  padding-top: 22px;
+  margin-top: 24px;
+  padding-top: 16px;
   border-top: 1px solid var(--rule-2);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px 20px;
+  gap: 8px 24px;
+}
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
 }
 .stat-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   color: var(--ink-3);
-  margin-bottom: 5px;
 }
 .stat-value {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 22px;
+  font-size: 15px;
   color: var(--ink);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
