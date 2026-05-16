@@ -50,6 +50,20 @@ export function wireUI(handlers) {
     });
   });
 
+  const tabsScroll = document.querySelector('.tabs-scroll');
+  const tabsNav = document.querySelector('.tabs');
+  if (tabsScroll && tabsNav) {
+    const updateTabFades = () => {
+      const max = tabsNav.scrollWidth - tabsNav.clientWidth;
+      tabsScroll.classList.toggle('at-start', tabsNav.scrollLeft <= 1);
+      tabsScroll.classList.toggle('at-end', tabsNav.scrollLeft >= max - 1);
+    };
+    tabsNav.addEventListener('scroll', updateTabFades, { passive: true });
+    window.addEventListener('resize', updateTabFades);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(updateTabFades);
+    updateTabFades();
+  }
+
   document.getElementById('btn-regen').addEventListener('click', () => regenerate(true));
 
   document.getElementById('btn-save').addEventListener('click', () => {
